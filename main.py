@@ -954,14 +954,18 @@ async def handle_ig_lookup(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     await wait_msg.delete()
 
+    fake_keyboard = InlineKeyboardMarkup([
+        [InlineKeyboardButton("💀 Hesaba Sızılsın Mı?", callback_data="fake_hack_button")]
+    ])
+
     # Profil fotoğrafı varsa fotoğrafla birlikte gönder
     if profile_pic:
         try:
-            await update.message.reply_photo(photo=profile_pic, caption=report, parse_mode="Markdown")
+            await update.message.reply_photo(photo=profile_pic, caption=report, parse_mode="Markdown", reply_markup=fake_keyboard)
         except Exception:
-            await update.message.reply_text(report, parse_mode="Markdown")
+            await update.message.reply_text(report, parse_mode="Markdown", reply_markup=fake_keyboard)
     else:
-        await update.message.reply_text(report, parse_mode="Markdown")
+        await update.message.reply_text(report, parse_mode="Markdown", reply_markup=fake_keyboard)
 
     await update.message.reply_text("🔄 Başka bir işlem?", reply_markup=main_menu_keyboard())
 
