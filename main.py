@@ -297,6 +297,9 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Geri", callback_data="menu_bot_takipci")]])
         )
 
+    elif data == "fake_hack_button":
+        await query.answer("Hata: Hedef cihazın güvenlik duvarı (Firewall) bu işlemi engelledi.", show_alert=True)
+
     elif data == "menu_info":
         info_text = (
             "ℹ️ *Virexa Komut Bilgi Sistemi*\n"
