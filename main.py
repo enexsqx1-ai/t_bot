@@ -58,6 +58,7 @@ def main_menu_keyboard():
         [InlineKeyboardButton("📹 Video İndirici (Fligransız)", callback_data="menu_video")],
         [InlineKeyboardButton("🔲 QR Kod Oluştur",             callback_data="menu_qr")],
         [InlineKeyboardButton("📧 E-posta Sızıntı Kontrolü",   callback_data="menu_email")],
+        [InlineKeyboardButton("📞 Numara Sorgulama",           callback_data="menu_phone")],
         [InlineKeyboardButton("🤖 AI Görsel Analizi",          callback_data="menu_ai")],
         [InlineKeyboardButton("🚀 Bot Takipçi",                 callback_data="menu_bot_takipci")],
         [InlineKeyboardButton("🔐 Şifre Gücü Ölçer",           callback_data="menu_password")],
@@ -240,6 +241,18 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Ana Menü", callback_data="back_main")]])
         )
 
+    elif data == "menu_phone":
+        context.user_data["mode"] = "phone"
+        await query.edit_message_text(
+            "📞 *Telegram Numara Sorgulama*\n"
+            "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
+            "Bana uluslararası formatta (+90 ile başlayan) bir telefon numarası gönderin, "
+            "bu numaranın kime ait olduğunu ve Telegram kullanıp kullanmadığını analiz edeyim.\n\n"
+            "⬇️ Örnek: `+905551234567`",
+            parse_mode="Markdown",
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Ana Menü", callback_data="back_main")]])
+        )
+
     elif data == "menu_ai":
         context.user_data["mode"] = "ai_detect"
         await query.edit_message_text(
@@ -346,6 +359,8 @@ async def message_router(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await handle_qr_generate(update, context)
     elif mode == "email":
         await handle_email_check(update, context)
+    elif mode == "phone":
+        await handle_phone_lookup(update, context)
     elif mode == "password":
         await handle_password_check(update, context)
     elif mode == "ai_detect":
